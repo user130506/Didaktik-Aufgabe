@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rolle, Verhalten und Kompetenzen – Mindmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f9fc; --grid:#d3dff0; --ink:#1b3380; --text:#1f2a44; --margin:#d9473f;
+  --y:#ffe66d; --p:#ffc4d6; --m:#b8efcf;
+  --hand:"Caveat Brush","Comic Sans MS",cursive; --body:"Atkinson Hyperlegible",Verdana,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--text); font:17px/1.55 var(--body);
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:28px 20px 60px 44px; position:relative}
+.wrap::before{content:""; position:absolute; left:20px; top:0; bottom:0; width:2px; background:var(--margin); opacity:.55}
+header{display:flex; flex-wrap:wrap; gap:16px 32px; justify-content:space-between; align-items:flex-end; margin-bottom:26px}
+h1{font:400 clamp(2rem,5vw,3.4rem)/1.05 var(--hand); color:var(--ink); margin:0}
+.meta{font-size:.95rem; max-width:34ch}
+.name{display:flex; align-items:baseline; gap:8px; font-family:var(--hand); font-size:1.5rem; color:var(--ink)}
+.name strong{font-weight:400; color:var(--text); border-bottom:2px solid var(--ink); padding:0 6px}
+nav{display:flex; gap:10px; margin-bottom:34px; flex-wrap:wrap}
+nav button, .print{
+  font:700 1rem var(--body); padding:10px 18px; border:2px solid var(--ink); background:#fff; color:var(--ink);
+  border-radius:4px; cursor:pointer
+}
+nav button[aria-selected="true"]{background:var(--ink); color:#fff}
+nav button:focus-visible,.print:focus-visible{outline:3px solid var(--margin); outline-offset:2px}
+.print{margin-left:auto}
+.root{
+  width:max-content; max-width:100%; margin:0 auto; text-align:center; background:var(--ink); color:#fff;
+  padding:16px 30px; border-radius:60px; font:400 clamp(1.4rem,3.4vw,2.1rem)/1.1 var(--hand); position:relative
+}
+.root small{display:block; font:400 .9rem var(--body); opacity:.85; margin-top:4px}
+.branches{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:46px; position:relative}
+.branches::before{content:""; position:absolute; top:-23px; left:16.6%; right:16.6%; height:2px; background:var(--ink)}
+.root::after{content:""; position:absolute; left:50%; top:100%; width:2px; height:23px; background:var(--ink)}
+.branch{background:#fff; border:2px solid var(--ink); border-radius:6px; padding:20px 20px 22px; position:relative}
+.branch::before{content:""; position:absolute; left:50%; top:-24px; width:2px; height:22px; background:var(--ink)}
+.branch h2{display:inline; font:400 1.9rem/1.6 var(--hand); color:var(--ink); padding:0 6px; margin:0 0 0 -6px; background:linear-gradient(transparent 38%,var(--hl) 38%,var(--hl) 92%,transparent 92%)}
+.b1{--hl:var(--y)} .b2{--hl:var(--p)} .b3{--hl:var(--m)}
+.branch ul{list-style:none; margin:14px 0 0; padding:0}
+.branch li{padding:10px 0; border-top:1px dashed #9db0d6}
+.branch li:first-child{border-top:0}
+.branch b{color:var(--ink)}
+.branch li span{display:block; font-size:.93rem; margin-top:3px}
+.branch li span::before{content:"Beispiel: "; font-weight:700; color:var(--margin)}
+.fazit{margin:40px auto 0; max-width:62ch; padding:16px 20px; border-left:5px solid var(--margin); background:#fff}
+.panel[hidden]{display:none}
+.intro{margin:0 0 20px; padding:12px 16px; background:var(--y); border:2px solid var(--ink); border-radius:4px; max-width:64ch}
+.goto{display:block; margin:22px auto 0; font:700 1rem var(--body); padding:11px 22px; background:var(--ink); color:#fff; border:2px solid var(--ink); border-radius:4px; cursor:pointer}
+.goto:hover{background:#fff; color:var(--ink)}
+.goto:focus-visible{outline:3px solid var(--margin); outline-offset:2px}
+@media print{.goto{display:none}}
+.branch h2{background-repeat:no-repeat; background-size:100% 100%}
+.branch li{transition:transform .2s ease}
+.branch li:hover{transform:translateX(5px)}
+@keyframes pop{from{transform:scale(.5); opacity:0} to{transform:scale(1); opacity:1}}
+@keyframes rise{from{transform:translateY(26px); opacity:0} to{transform:none; opacity:1}}
+@keyframes growY{from{transform:scaleY(0)} to{transform:scaleY(1)}}
+@keyframes growX{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+@keyframes mark{from{background-size:0 100%} to{background-size:100% 100%}}
+@keyframes fade{from{opacity:0} to{opacity:1}}
+.root::after,.branch::before{transform-origin:top}
+@media (prefers-reduced-motion:no-preference){
+  .play .root{animation:pop .55s cubic-bezier(.2,1.5,.4,1) both}
+  .play .root::after{animation:growY .25s ease .5s both}
+  .play .branches::before{animation:growX .3s ease .7s both}
+  .play .branch{animation:rise .55s ease both}
+  .play .branch::before{animation:growY .2s ease 1s both}
+  .play .branch:nth-child(1){animation-delay:.9s}
+  .play .branch:nth-child(2){animation-delay:1.05s}
+  .play .branch:nth-child(3){animation-delay:1.2s}
+  .play .branch h2{animation:mark .6s ease both}
+  .play .branch:nth-child(1) h2{animation-delay:1.5s}
+  .play .branch:nth-child(2) h2{animation-delay:1.65s}
+  .play .branch:nth-child(3) h2{animation-delay:1.8s}
+  .play .fazit{animation:fade .6s ease 2.1s both}
+}
+footer{margin-top:40px; font-size:.9rem}
+@media (max-width:820px){
+  .branches{grid-template-columns:1fr; margin-top:40px}
+  .branches::before,.branch::before{display:none}
+  .wrap{padding-left:32px}
+  .print{margin-left:0}
+}
+@media print{
+  nav,.print{display:none}
+  .panel[hidden]{display:block; break-before:page}
+  body{background:#fff; font-size:14px}
+  .branches{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Rolle, Verhalten und Kompetenzen</h1>
+      <p class="meta">Einführung in die Didaktik · L3 S5 · Dr. B. Aberbache</p>
+    </div>
+    <div class="name">Name: <strong>Kirouani Nour El Houda</strong></div>
+  </header>
+
+  <p class="intro">Diese Arbeit hat <b>2 Teile</b>: <b>Die Lehrkraft</b> und <b>Die Lernenden</b>. In beiden Teilen geht es um Rolle, Verhalten und Kompetenzen.</p>
+
+  <nav role="tablist" aria-label="Teil wählen">
+    <button role="tab" id="t1" aria-selected="true" aria-controls="p1">Teil 1: Die Lehrkraft</button>
+    <button role="tab" id="t2" aria-selected="false" aria-controls="p2">Teil 2: Die Lernenden</button>
+  </nav>
+
+  <main>
+  <section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+    <div class="root">Lehrkraft<small>im Fremdsprachenunterricht</small></div>
+    <div class="branches">
+      <article class="branch b1">
+        <h2>Rolle</h2>
+        <ul>
+          <li><b>Wissensvermittler/in:</b> erklärt Inhalte klar und verständlich.<span>Die Lehrkraft erklärt das Perfekt und zeigt Beispielsätze an der Tafel.</span></li>
+          <li><b>Lernbegleiter/in:</b> unterstützt Lernprozesse, statt nur Antworten zu geben.<span>Bei einem Referat gibt sie Tipps zur Gliederung, aber die Studierenden recherchieren selbst.</span></li>
+          <li><b>Organisator/in:</b> plant den Unterricht und schafft eine gute Lernatmosphäre.<span>Sie teilt Gruppen ein und stellt Material auf Moodle bereit.</span></li>
+          <li><b>Vorbild:</b> lebt Sprache, Neugier und Arbeitshaltung vor.<span>Sie spricht im Unterricht konsequent Deutsch.</span></li>
+        </ul>
+      </article>
+      <article class="branch b2">
+        <h2>Verhalten</h2>
+        <ul>
+          <li><b>Respektvoll und geduldig:</b> nimmt alle Lernenden ernst.<span>Sie lässt eine Studentin ausreden, auch wenn sie langsam spricht.</span></li>
+          <li><b>Gerecht und transparent:</b> bewertet nach klaren Kriterien.<span>Vor der Prüfung erklärt sie, wie die Note zustande kommt.</span></li>
+          <li><b>Motivierend:</b> gibt ermutigendes, konkretes Feedback.<span>„Dein Wortschatz ist sehr gut, achte noch auf die Verbposition.“</span></li>
+          <li><b>Fehlerfreundlich:</b> sieht Fehler als Lernchance.<span>Fehler werden gemeinsam besprochen, nicht bloßgestellt.</span></li>
+        </ul>
+      </article>
+      <article class="branch b3">
+        <h2>Kompetenzen</h2>
+        <ul>
+          <li><b>Fachkompetenz:</b> beherrscht Sprache, Grammatik und Landeskunde.<span>Sie beantwortet Fragen zu Kasus und Präpositionen sicher.</span></li>
+          <li><b>Methodisch-didaktische Kompetenz:</b> wählt passende Methoden und Medien.<span>Rollenspiel für Dialoge, Mindmap für Wortschatz.</span></li>
+          <li><b>Soziale und kommunikative Kompetenz:</b> kann zuhören, erklären und vermitteln.<span>Sie löst einen Konflikt in der Gruppenarbeit ruhig.</span></li>
+          <li><b>Diagnostische Kompetenz:</b> erkennt den Lernstand und Probleme.<span>Nach einem Quiz merkt sie, dass der Dativ nochmal geübt werden muss.</span></li>
+          <li><b>Medienkompetenz:</b> nutzt digitale Werkzeuge sinnvoll.<span>Online-Übungen und Videos auf der Lernplattform.</span></li>
+        </ul>
+      </article>
+    </div>
+    <p class="fazit"><b>Fazit:</b> Eine gute Lehrkraft vermittelt nicht nur Wissen, sondern begleitet, motiviert und fördert die Selbstständigkeit der Lernenden.</p>
+    <button class="goto" data-go="1">Weiter zu Teil 2: Die Lernenden</button>
+  </section>
+
+  <section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+    <div class="root">Lernende<small>im Studienalltag</small></div>
+    <div class="branches">
+      <article class="branch b1">
+        <h2>Rolle</h2>
+        <ul>
+          <li><b>Aktive Mitgestalter/innen:</b> tragen selbst zum Lernerfolg bei.<span>Ich bereite mich auf die Sitzung vor und bringe Fragen mit.</span></li>
+          <li><b>Selbstverantwortlich Lernende:</b> steuern den eigenen Lernprozess.<span>Ich plane meine Lernzeiten für die Prüfungswochen.</span></li>
+          <li><b>Teampartner/innen:</b> arbeiten mit anderen zusammen.<span>In der Gruppenarbeit übernehme ich einen Teil des Referats.</span></li>
+          <li><b>Feedbackgeber/innen:</b> helfen, den Unterricht zu verbessern.<span>Ich sage ehrlich, welche Methode mir beim Lernen hilft.</span></li>
+        </ul>
+      </article>
+      <article class="branch b2">
+        <h2>Verhalten</h2>
+        <ul>
+          <li><b>Zuverlässig:</b> kommt pünktlich und gibt Aufgaben rechtzeitig ab.<span>Ich lade meine Hausaufgabe vor der Frist auf Moodle hoch.</span></li>
+          <li><b>Aktive Mitarbeit:</b> beteiligt sich am Unterricht und stellt Fragen.<span>Ich melde mich, wenn ich etwas nicht verstehe.</span></li>
+          <li><b>Respektvoll:</b> hört zu und achtet die anderen.<span>Ich lasse meine Kommilitonen ausreden.</span></li>
+          <li><b>Mutig:</b> spricht trotz möglicher Fehler.<span>Ich präsentiere auf Deutsch, auch wenn ich nervös bin.</span></li>
+        </ul>
+      </article>
+      <article class="branch b3">
+        <h2>Kompetenzen</h2>
+        <ul>
+          <li><b>Selbstorganisation:</b> plant Zeit und nutzt Lernstrategien.<span>Karteikarten für Vokabeln und ein wöchentlicher Lernplan.</span></li>
+          <li><b>Kommunikationsfähigkeit:</b> drückt sich verständlich aus.<span>Ich übe Dialoge mit einem Partner.</span></li>
+          <li><b>Teamfähigkeit:</b> kann Aufgaben verteilen und Kompromisse finden.<span>Wir teilen uns die Teile eines Gruppenprojekts auf.</span></li>
+          <li><b>Medien- und Recherchekompetenz:</b> findet und prüft Informationen.<span>Ich nutze Wörterbücher und vertrauenswürdige Quellen für ein Referat.</span></li>
+          <li><b>Reflexionsfähigkeit:</b> bewertet das eigene Lernen kritisch.<span>Nach einer Klausur überlege ich, was ich besser machen kann.</span></li>
+        </ul>
+      </article>
+    </div>
+    <p class="fazit"><b>Fazit:</b> Erfolgreiches Lernen entsteht, wenn Lernende Verantwortung übernehmen, aktiv mitarbeiten und über ihr eigenes Lernen nachdenken.</p>
+    <button class="goto" data-go="0">Zurück zu Teil 1: Die Lehrkraft</button>
+  </section>
+  </main>
+
+  <footer>Erstellt von <strong id="nameOut">Kirouani Nour El Houda</strong></footer>
+</div>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  function show(i){
+    tabs.forEach(function(t,j){
+      t.setAttribute('aria-selected', i===j);
+      var p=document.getElementById(t.getAttribute('aria-controls'));
+      p.hidden = i!==j;
+      p.classList.remove('play');
+      if(i===j){ void p.offsetWidth; p.classList.add('play'); }
+    });
+  }
+  show(0);
+  [].forEach.call(document.querySelectorAll('.goto'),function(b){
+    b.addEventListener('click',function(){
+      show(+b.getAttribute('data-go'));
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  tabs.forEach(function(t,i){ t.addEventListener('click',function(){show(i)}); });
+
+})();
+</script>
+</body>
+</html>
